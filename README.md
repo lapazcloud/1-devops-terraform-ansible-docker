@@ -1,5 +1,25 @@
 # Docker Nights 1: DevOps, conceptos y aplicaciones
 
+## Votación app y docker-compose
+
+#### Requisitos
+
+- [Docker 1.12](https://www.docker.com/) o superior
+- [docker-compose](https://github.com/docker/compose/releases) 1.8 o superior
+
+Aplicación escrita en PHP y Redis para votar por el Bolívar y The Strongest.
+
+``` shell
+$ cd votacion
+$ docker-compose up -d
+```
+La aplicación se compilará y las imágenes se descargarán del Docker Hub. Visita la aplicación en [http://localhost/](http://localhost/).
+
+Una vez que la aplicación este lista para ponerse en producción, la guardamos en Docker Hub:
+
+``` shell
+$ docker-compose push
+```
 
 ## Terraform
 
@@ -64,5 +84,43 @@ $ ansible-playbook -i hosts install-docker.yml
 ```
 
 Ansible agregará la llave GPG y el repositorio oficial de Docker, instalando todas las dependencias.
+
+## [Docker Swarm](https://docs.docker.com/engine/swarm/) Mode
+
+#### Requisitos
+* [Docker 1.12](https://www.docker.com/)
+
+Ingresa a tu servidor via SSH y ambia a modo swarm usando tu ip pública:
+
+``` shell
+# en la carpeta raiz de este repositorio
+$ ssh -i dockernights1 root@<ip_publica>
+$ docker swarm init --advertise-addr <ip_publica>
+```
+
+Crea una red de tipo `overlay` en Docker
+
+``` shell
+$ docker network create -d overlay votacion
+```
+
+Crea el servicio `redis` adjuntándolo a la red votación:
+
+``` shell
+docker service create --name redis --replicas 1 --network votacion redis:3.0-alpine
+```
+
+El servicio `app` corre con la imagen de la aplicación web:
+
+``` shell
+docker service create --name app -p 80:3000 --network votacion dockerlapaz/votacion:1.0.0
+```
+
+Escala el servicio `app` a 5 replicas
+
+``` shell
+docker service scale app=5
+```
+
 
 
