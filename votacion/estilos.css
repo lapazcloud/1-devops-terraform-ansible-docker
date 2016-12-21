@@ -1,0 +1,49 @@
+body {
+	font-family: Sans-Serif;
+	background-color:#fafafa;
+	color:#333;
+	font-size:1.3em;
+	line-height:1.9em;
+	text-align:center;
+	cursor: default;
+	margin:0;
+	padding:0;
+}
+
+#wrapper {
+	width:30em;
+	margin:0 auto;
+}
+
+header {
+	background:#aaa;font-size:0.8em;color:#fff;
+	margin:0;padding:0;
+}
+
+ul {text-align:left;margin:0;padding:0;}
+li {list-style-type:none;margin:0 0 0.5em 0;padding:0;}
+label {width:100%;display:block;cursor:pointer;padding:1.8em;color:#fff;text-transform:uppercase;font-weight:bold;}
+
+li.bolivar {background:rgb(144,216,246);border:0.4em solid rgb(6,57,132);}
+li.bolivar label {color: rgb(6,57,132);}
+li.bolivar:hover {background:rgb(6,57,132);}
+li.bolivar:hover label {color:#fff;}
+
+li.tigre {background:rgb(253,198,41);border:0.4em solid #222;}
+li.tigre label {color:#222;}
+li.tigre:hover {background:#222;}
+li.tigre:hover label {color:#fff;}
+
+li:hover {background:#fff;}
+/*li:hover label {color:#fafafa;}*/
+
+input[type="radio"]{visibility:hidden;position: absolute;}
+input[type=radio]:checked ~ label{
+  color: #222;
+}
+
+footer {
+	text-align:center;
+	color:#666;
+	font-size:0.8em;
+}
