@@ -97,6 +97,16 @@ Ingresa a tu servidor via SSH y ambia a modo swarm usando tu ip pública:
 $ ssh -i dockernights1 root@<ip_publica>
 $ docker swarm init --advertise-addr <ip_publica>
 ```
+Corre el visualizador de Swarm:
+
+``` shell
+$ docker service create \
+  --name=viz \
+  --publish=8080:8080/tcp \
+  --constraint=node.role==manager \
+  --mount=type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock \
+  manomarks/visualizer
+```
 
 Crea una red de tipo `overlay` en Docker
 
@@ -122,5 +132,16 @@ Escala el servicio `app` a 5 replicas
 docker service scale app=5
 ```
 
+## Logspout
+
+[Logspout](https://github.com/gliderlabs/logspout) capturará los logs de la aplicación web y los enviará a [Papertrail](https://papertrailapp.com/).
+
+Crea una cuenta en [Papertrail](https://papertrailapp.com/) y obtiene la dirección de envío de logs `(logs#.papertrailapp.com:PORT)`
+
+Dentro del servidor principal, crea el siguiente servicio reemplazando la dirección de logs al final del comando:
+
+``` shell
+docker service create --name logspout --mode global --mount=type=bind,src=/var/run/docker.sock,dst=/var/run/docker.sock gliderlabs/logspout syslog://logs#.papertrailapp.com:PORT
+```
 
 

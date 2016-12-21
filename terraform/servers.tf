@@ -1,3 +1,7 @@
+// How many servers do you need?
+variable "servers_count" {
+	description = "Cantidad de servidores para produccion."
+}
 // Need to create a DigitalOcean account, then the API key
 variable "digitalocean_token" {}
 // This in case your domain is under Cloudflare
@@ -26,9 +30,10 @@ resource "digitalocean_ssh_key" "dockernights1" {
 // Let's create a server
 resource "digitalocean_droplet" "web" {
 	image = "ubuntu-14-04-x64"
-	name = "web"
+	count = "${var.servers_count}"
+	name = "${format("web-%02d", count.index)}"
 	region = "nyc2"
-	size = "512mb"
+	size = "1gb"
 	ssh_keys = ["${digitalocean_ssh_key.dockernights1.id}"]
 }
 
@@ -36,6 +41,6 @@ resource "digitalocean_droplet" "web" {
 resource "cloudflare_record" "web" {
 	domain = "${var.cloudflare_domain}"
 	name = "@"
-	value = "${digitalocean_droplet.web.ipv4_address}"
+	value = "${digitalocean_droplet.web.0.ipv4_address}"
 	type = "A"
 }
