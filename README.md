@@ -3,6 +3,10 @@
 
 ## Terraform
 
+#### Requisitos:
+
+* [Terraform](https://www.terraform.io) 0.8.x o superior
+
 En la raíz del proyecto genera una llave SSH, nombrándola `dockernights1`:
 
 ``` shell
@@ -26,4 +30,4 @@ Ejecuta la creación de la instancia:
 terraform apply dockernights1
 ```
 
-Alegría :)
+Terraform se encargará de subir la llave SSH, crear el servidor y añadir el registro con la IP al dominio `web.tusitio.com`.

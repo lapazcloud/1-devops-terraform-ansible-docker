@@ -2,3 +2,5 @@
 *.pub
 *.plan
 *dockernights*
+terraform.tfvars
+*.retry

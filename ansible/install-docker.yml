@@ -1,0 +1,13 @@
+---
+- name: Install Docker for the lulz
+  hosts: all
+  tasks:
+  # Install Docker and other utilites from the official repository
+  - apt_key: keyserver=hkp://ha.pool.sks-keyservers.net:80 state=present id=58118E89F3A912897C070ADBF76221572C52609D
+  - apt_repository: repo='deb https://apt.dockerproject.org/repo ubuntu-{{ ansible_distribution_release }} main' state=present
+  - apt: name={{ item }} update_cache=yes
+    with_items:
+      - docker-engine
+      - python-pip
+  - pip:
+      name: docker-py

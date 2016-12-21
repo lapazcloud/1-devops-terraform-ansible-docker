@@ -35,8 +35,7 @@ resource "digitalocean_droplet" "web" {
 // Cloudflare Domain registration
 resource "cloudflare_record" "web" {
 	domain = "${var.cloudflare_domain}"
-	name = "web"
+	name = "@"
 	value = "${digitalocean_droplet.web.ipv4_address}"
 	type = "A"
-	ttl = 3600
 }
