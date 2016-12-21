@@ -132,6 +132,12 @@ Escala el servicio `app` a 5 replicas
 docker service scale app=5
 ```
 
+Obtener la versión de la aplicación:
+
+``` shell
+while true; do curl http://ip_publica/version.php; sleep 1; done
+```
+
 ## Logspout
 
 [Logspout](https://github.com/gliderlabs/logspout) capturará los logs de la aplicación web y los enviará a [Papertrail](https://papertrailapp.com/).
